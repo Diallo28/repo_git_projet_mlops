@@ -1,16 +1,26 @@
 from flask import Flask, render_template, request
 import pickle
 import pandas as pd
-
+import statsmodels.api as sm
 
 app = Flask(__name__)
-model = pickle.load(open("catboost_model-2.pkl", "rb"))
+model = pickle.load(open("reg_logistic_model.pkl", "rb"))
+
 
 
 def model_pred(features):
-    test_data = pd.DataFrame([features])
-    prediction = model.predict(test_data)
-    return int(prediction[0])
+        test_data = pd.DataFrame([features])
+        test_data = sm.add_constant(test_data, has_constant='add')
+        prediction = model.predict(test_data)
+        return int(prediction[0])
+
+
+
+
+#def model_pred(features):
+    #test_data = pd.DataFrame([features])
+    #prediction = model.predict(test_data)
+    #return int(prediction[0])
 
 
 @app.route("/", methods=["GET"])
@@ -21,25 +31,25 @@ def Home():
 @app.route("/predict", methods=["POST"])
 def predict():
     if request.method == "POST":
-        Age = int(request.form["Age"])
-        RestingBP = int(request.form["RestingBP"])
-        Cholesterol = int(request.form["Cholesterol"])
-        Oldpeak = float(request.form["Oldpeak"])
-        FastingBS = int(request.form["FastingBS"])
-        MaxHR = int(request.form["MaxHR"])
+        credit_lines_outstanding = int(request.form["credit_lines_outstanding"])
+        loan_amt_outstanding = float(request.form["loan_amt_outstanding"])
+        total_debt_outstanding = float(request.form["total_debt_outstanding"])
+        income = float(request.form["income"])
+        years_employed = int(request.form["years_employed"])
+        fico_score = int(request.form["fico_score"])
         prediction = model.predict(
-            [[Age, RestingBP, Cholesterol, FastingBS, MaxHR, Oldpeak]]
+            [[credit_lines_outstanding, loan_amt_outstanding, total_debt_outstanding, income, years_employed, fico_score]]
         )
 
         if prediction[0] == 1:
             return render_template(
                 "index.html",
-                prediction_text="Kindly make an appointment with the doctor!",
+                prediction_text="You default and credit is therefore not granted!",
             )
 
         else:
             return render_template(
-                "index.html", prediction_text="You are well. No worries :)"
+                "index.html", prediction_text="You are well. credit granted :)"
             )
 
     else:

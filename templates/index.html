@@ -12,12 +12,12 @@
     <div style="color:blue">
         <form action="{{ url_for('predict')}}" method="post">
             <h2>Predictive Analysis</h2>
-            <h3>Age</h3><input id="first" name="Age" type="number " required="required">
-            <h3>RestingBP(100-200)</h3><input id="second" name="RestingBP" required="required">
-            <h3>Cholesterol (100-600)</h3><input id="third" name="Cholesterol" required="required">
-            <h3>FastingBS (0 or 1)</h3><input id="fourth" name="FastingBS" required="required">
-            <h3>MaxHR (60-205)</h3><input id="fifth" name="MaxHR" required="required">
-            <h3>Oldpeak (0.0-6.2)</h3><input id="sixth" name="Oldpeak" required="required">
+            <h3>credit_lines_outstanding(0-5)</h3><input id="first" name="credit_lines_outstanding" type="number " required="required">
+            <h3>loan_amt_outstanding(46.7-10750.6)</h3><input id="second" name="loan_amt_outstanding" required="required">
+            <h3>total_debt_outstanding (31.6-43688.7)</h3><input id="third" name="total_debt_outstanding" required="required">
+            <h3>income (1000.0-148412.1)</h3><input id="fourth" name="income" required="required">
+            <h3>years_employed (0-10)</h3><input id="fifth" name="years_employed" required="required">
+            <h3>fico_score (408-850)</h3><input id="sixth" name="fico_score" required="required">
             <br><br><button id="sub" type="submit ">Result</button>
             <br>
 

@@ -3,11 +3,11 @@ import pickle
 import pandas as pd
 
 app = Flask(__name__)
-model = pickle.load(open("reglogisticmodel.pkl", "rb"))  # Modèle chargé depuis le fichier .pkl
+model = pickle.load(open("reglogisticmodel.pkl", "rb"))  # Chargement du modèle depuis le fichier pickle
 
 
 def model_pred(features):
-    """ Fonction pour prédire le résultat basé sur les features données """
+    """Fonction pour prédire le résultat basé sur les features fournies"""
     test_data = pd.DataFrame([features])
     prediction = model.predict(test_data)
     return int(prediction[0])
@@ -15,16 +15,16 @@ def model_pred(features):
 
 @app.route("/", methods=["GET"])
 def home():
-    """ Fonction pour gérer la page d'accueil """
+    """Route pour afficher la page d'accueil"""
     return render_template("index.html")
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    """ Fonction pour gérer les prédictions basées sur les données soumises """
+    """Route pour gérer les prédictions basées sur les données soumises via un formulaire"""
     if request.method == "POST":
         try:
-            # Extraction des valeurs du formulaire
+            # Extraction des données du formulaire
             credit_lines_outstanding = int(request.form["credit_lines_outstanding"])
             loan_amt_outstanding = float(request.form["loan_amt_outstanding"])
             total_debt_outstanding = float(request.form["total_debt_outstanding"])
@@ -32,15 +32,15 @@ def predict():
             years_employed = int(request.form["years_employed"])
             fico_score = int(request.form["fico_score"])
 
-            # Constante ajoutée aux prédictions
+            # Constante pour la prédiction (vous pouvez adapter cette valeur si nécessaire)
             constant = 133.9888
 
-            # Prédiction basée sur le modèle
+            # Prédiction du modèle
             prediction = model.predict(
                 [[constant, credit_lines_outstanding, loan_amt_outstanding, total_debt_outstanding, income, years_employed, fico_score]]
             )
 
-            # Rendu du template avec le résultat
+            # Rendre le template en fonction du résultat de la prédiction
             if prediction[0] == 1:
                 return render_template(
                     "index.html",
@@ -51,8 +51,17 @@ def predict():
                     "index.html", prediction_text="Tout va bien, crédit accordé ! :)"
                 )
 
+        except ValueError as e:
+            # Gestion des erreurs liées aux types de valeurs (par exemple, si on soumet des lettres à la place de chiffres)
+            return render_template("index.html", prediction_text=f"Erreur dans les valeurs numériques : {e}")
+        
+        except KeyError as e:
+            # Gestion des erreurs liées à des clés manquantes dans le formulaire
+            return render_template("index.html", prediction_text=f"Clé manquante dans le formulaire : {e}")
+
         except Exception as e:
-            return render_template("index.html", prediction_text=f"Erreur dans les données: {e}")
+            # Gestion des erreurs non anticipées
+            return render_template("index.html", prediction_text=f"Une erreur inattendue est survenue : {e}")
 
     else:
         return render_template("index.html")

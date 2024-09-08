@@ -1,26 +1,25 @@
 from flask import Flask, render_template, request
 import pickle
 import pandas as pd
-import statsmodels.api as sm
+
+
 
 app = Flask(__name__)
 model = pickle.load(open("reg_logistic_model.pkl", "rb"))
 
 
 
-def model_pred(features):
-        test_data = pd.DataFrame([features])
-        test_data = sm.add_constant(test_data, has_constant='add')
-        prediction = model.predict(test_data)
-        return int(prediction[0])
-
-
-
-
 #def model_pred(features):
-    #test_data = pd.DataFrame([features])
-    #prediction = model.predict(test_data)
-    #return int(prediction[0])
+        #test_data = pd.DataFrame([features])
+        #test_data = sm.add_constant(test_data, has_constant='add')
+        #prediction = model.predict(test_data)
+        #return int(prediction[0])
+
+
+def model_pred(features):
+    test_data = pd.DataFrame([features])
+    prediction = model.predict(test_data)
+    return int(prediction[0])
 
 
 @app.route("/", methods=["GET"])
@@ -31,6 +30,7 @@ def Home():
 @app.route("/predict", methods=["POST"])
 def predict():
     if request.method == "POST":
+        constant= 133.9888
         credit_lines_outstanding = int(request.form["credit_lines_outstanding"])
         loan_amt_outstanding = float(request.form["loan_amt_outstanding"])
         total_debt_outstanding = float(request.form["total_debt_outstanding"])
@@ -38,7 +38,7 @@ def predict():
         years_employed = int(request.form["years_employed"])
         fico_score = int(request.form["fico_score"])
         prediction = model.predict(
-            [[credit_lines_outstanding, loan_amt_outstanding, total_debt_outstanding, income, years_employed, fico_score]]
+            [[constant, credit_lines_outstanding, loan_amt_outstanding, total_debt_outstanding, income, years_employed, fico_score]]
         )
 
         if prediction[0] == 1:

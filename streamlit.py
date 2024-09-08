@@ -10,7 +10,8 @@ from sklearn.metrics import roc_curve, auc, confusion_matrix, classification_rep
 import pickle
 
 # Chemin du fichier CSV
-directory = 'C:\\Users\\maumy\\OneDrive\\Bureau\\DU SDA\\Loan_Data.csv'
+directory = 'Loan_Data.csv'
+#C:\\Users\\maumy\\OneDrive\\Bureau\\DU SDA\\
 
 # Fonction pour charger les données
 def load_and_display_data(file_path):
@@ -147,7 +148,7 @@ elif tab == "test prédiction":
     st.title("Prédiction de défaut de crédit")
 
     # Chargement  modèle
-    model_path = r"C:\Users\maumy\Documents\streamlit_projetcs\reg_logistic_model.pkl"
+    model_path = "reg_logistic_model.pkl"
     model = pickle.load(open(model_path, "rb"))
 
     def model_pred(features):

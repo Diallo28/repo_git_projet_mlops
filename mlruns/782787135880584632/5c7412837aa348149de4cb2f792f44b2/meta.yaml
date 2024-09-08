@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/782787135880584632/5c7412837aa348149de4cb2f792f44b2/artifacts
+end_time: 1725568383448
+entry_point_name: ''
+experiment_id: '782787135880584632'
+lifecycle_stage: active
+run_id: 5c7412837aa348149de4cb2f792f44b2
+run_name: credit_reglogistique_test
+run_uuid: 5c7412837aa348149de4cb2f792f44b2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1725568330397
+status: 3
+tags: []
+user_id: Admin

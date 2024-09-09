@@ -1,5 +1,6 @@
 import pytest
 from app import app, model_pred
+import statsmodels.api as sm  # Ajoutez cette ligne
 
 @pytest.fixture
 def client():

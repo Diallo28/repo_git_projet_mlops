@@ -8,7 +8,7 @@ app = Flask(__name__)
 model = pickle.load(open("reg_logistic_model.pkl", "rb"))
 
 
-#A effacer je pense fortement
+#A effacer je pense fortement pour l'instant
 #def model_pred(features):
         #test_data = pd.DataFrame([features])
         #test_data = sm.add_constant(test_data, has_constant='add')

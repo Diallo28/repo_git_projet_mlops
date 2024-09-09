@@ -9,7 +9,7 @@ def client():
 def test_home_page(client):
     response = client.get('/')
     assert response.status_code == 200
-    ##assert b"Welcome" in response.data  # Assurez-vous que votre page d'accueil contient ce texte
+    #assert b"Welcome" in response.data  # Assurez-vous que votre page d'accueil contient ce texte
 
 def test_predict_route(client):
     response = client.post('/predict', data={
